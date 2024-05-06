@@ -82,7 +82,7 @@ private:
 
         // Calculate the new position of C relative to B
         Eigen::Vector2d p_CB = R_BA.transpose() * (p_CA - p_BA);
-        RCLCPP_INFO(this->get_logger(), "[%d] X: %.3f\tY: %.3f", current_goal_index_, p_CB[0], p_CB[1]);
+        RCLCPP_DEBUG(this->get_logger(), "[%d] X: %.3f\tY: %.3f", current_goal_index_, p_CB[0], p_CB[1]);
         return p_CB;
     }
 
@@ -93,9 +93,9 @@ private:
         double current_y = msg->pose.pose.position.y;
         double current_rotation = 2 * std::atan2(z, w);
         auto cmd_vel = geometry_msgs::msg::Twist();
-        RCLCPP_INFO(this->get_logger(), "[%d] Current X: %.3f", current_goal_index_, current_x);
-        RCLCPP_INFO(this->get_logger(), "[%d] Current Y: %.3f", current_goal_index_, current_y);
-        RCLCPP_INFO(this->get_logger(), "[%d] Current rotation: %.3f", current_goal_index_, current_rotation * 180 / M_PI);
+        RCLCPP_DEBUG(this->get_logger(), "[%d] Current X: %.3f", current_goal_index_, current_x);
+        RCLCPP_DEBUG(this->get_logger(), "[%d] Current Y: %.3f", current_goal_index_, current_y);
+        RCLCPP_DEBUG(this->get_logger(), "[%d] Current rotation: %.3f", current_goal_index_, current_rotation * 180 / M_PI);
 
         if (current_goal_index_ < int(distance_goals_.size())) {
             std::vector<double> waypoint = distance_goals_[current_goal_index_];
@@ -105,7 +105,7 @@ private:
             Eigen::Vector2d p_CA(waypoint[0], waypoint[1]);
             Eigen::Vector2d p_CB = transformCoordinates(p_CA, p_BA, current_rotation);
             double error = std::atan2(p_CB[1], p_CB[0]);
-            RCLCPP_INFO(this->get_logger(), "[%d] Angular error: %.3f", current_goal_index_, error);
+            RCLCPP_DEBUG(this->get_logger(), "[%d] Angular error: %.3f", current_goal_index_, error);
             double derivative = error - previous_error_r_;
             integral_r_ += error;
             previous_error_r_ = error;
@@ -138,7 +138,7 @@ private:
             double goal_x = distance_goals_[current_goal_index_][0];
             double goal_y = distance_goals_[current_goal_index_][1];
             double error = std::sqrt(std::pow(current_x - goal_x, 2) + std::pow(current_y - goal_y, 2));
-            RCLCPP_INFO(this->get_logger(), "[%d] Linear error: %.3f", current_goal_index_, error);
+            RCLCPP_DEBUG(this->get_logger(), "[%d] Linear error: %.3f", current_goal_index_, error);
             double derivative = error - previous_error_l_;
             integral_l_ += error;
             previous_error_l_ = error;
