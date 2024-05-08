@@ -1,3 +1,5 @@
+# PID Maze Solver
+
 The PID Maze Solver is a ROS2 package designed to control a Rosbot XL robot to navigate through a maze using two PID controllers. The first controller moves the robot forward toward a waypoint, and the second controller rotates the robot to face the next waypoint. This solution integrates both controllers to allow the Rosbot XL to solve mazes efficiently.
 
 ## Features
